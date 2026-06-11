@@ -1,13 +1,7 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
-import { CheckCircle2, ChevronDown, Menu, X } from "lucide-react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Check, CheckCircle2, ChevronDown, Menu, X } from "lucide-react";
 
 function prefersReducedMotion() {
   return (
@@ -63,7 +57,7 @@ export function Reveal({
 }
 
 /* ------------------------------------------------------------------ */
-/* ScrollProgress — thin gradient bar under the sticky nav             */
+/* ScrollProgress — solid green bar across the very top                */
 /* ------------------------------------------------------------------ */
 
 export function ScrollProgress() {
@@ -88,42 +82,8 @@ export function ScrollProgress() {
   }, []);
 
   return (
-    <div
-      aria-hidden
-      className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5"
-    >
-      <div
-        ref={barRef}
-        className="h-full origin-left scale-x-0 bg-gradient-to-r from-primary via-accent to-cosmetic"
-      />
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* SpotlightCard — radial glow that follows the cursor                 */
-/* ------------------------------------------------------------------ */
-
-export function SpotlightCard({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    el.style.setProperty("--x", `${e.clientX - rect.left}px`);
-    el.style.setProperty("--y", `${e.clientY - rect.top}px`);
-  }, []);
-
-  return (
-    <div ref={ref} onMouseMove={onMouseMove} className={`spotlight ${className}`}>
-      {children}
+    <div aria-hidden className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-1">
+      <div ref={barRef} className="h-full origin-left scale-x-0 bg-primary" />
     </div>
   );
 }
@@ -166,21 +126,21 @@ const TONE_STYLES: Record<
   { chip: string; panel: string; pill: string; text: string }
 > = {
   major: {
-    chip: "bg-major/15 text-major",
-    panel: "border-major/30 bg-major/5",
-    pill: "border-major/50 bg-major/15 text-major",
+    chip: "bg-major text-white",
+    panel: "border-major bg-major/5",
+    pill: "border-ink bg-major text-white",
     text: "text-major",
   },
   minor: {
-    chip: "bg-minor/15 text-minor",
-    panel: "border-minor/30 bg-minor/5",
-    pill: "border-minor/50 bg-minor/15 text-minor",
+    chip: "bg-minor text-white",
+    panel: "border-minor bg-minor/5",
+    pill: "border-ink bg-minor text-white",
     text: "text-minor",
   },
   cosmetic: {
-    chip: "bg-cosmetic/15 text-cosmetic",
-    panel: "border-cosmetic/30 bg-cosmetic/5",
-    pill: "border-cosmetic/50 bg-cosmetic/15 text-cosmetic",
+    chip: "bg-cosmetic text-white",
+    panel: "border-cosmetic bg-cosmetic/5",
+    pill: "border-ink bg-cosmetic text-white",
     text: "text-cosmetic",
   },
 };
@@ -231,10 +191,10 @@ export function AnimatedDefectPanel() {
   return (
     <div ref={containerRef} className="space-y-3 p-4">
       {/* Comment with the inserted label */}
-      <div className="rounded-lg border border-border bg-card/60 px-3 py-2.5 font-mono text-xs leading-relaxed">
+      <div className="border-2 border-line bg-background px-3 py-2.5 font-mono text-xs leading-relaxed">
         <span
           key={`chip-${label}`}
-          className={`animate-pop inline-block rounded px-1 py-0.5 font-semibold ${tone.chip}`}
+          className={`animate-pop inline-block px-1.5 py-0.5 font-bold ${tone.chip}`}
         >
           {label}
         </span>{" "}
@@ -247,28 +207,26 @@ export function AnimatedDefectPanel() {
       </div>
 
       {/* The panel itself */}
-      <div
-        className={`rounded-lg border p-3 transition-colors duration-500 ${tone.panel}`}
-      >
-        <label className="flex items-center gap-2 text-xs font-medium">
-          <span className="flex h-4 w-4 items-center justify-center rounded border border-primary/50 bg-primary/20">
-            <CheckCircle2 className="h-3 w-3 text-primary" />
+      <div className={`border-2 p-3 transition-colors duration-500 ${tone.panel}`}>
+        <span className="flex items-center gap-2 text-xs font-bold">
+          <span className="flex h-4 w-4 items-center justify-center border-2 border-ink bg-primary">
+            <Check className="h-3 w-3 text-white" />
           </span>
           Mark as Defect
-        </label>
+        </span>
 
         <div className="mt-3 space-y-2.5">
           <div className="flex flex-wrap items-center gap-1.5">
-            <span className="w-14 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <span className="w-14 font-mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
               Severity
             </span>
             {SEVERITIES.map((s) => (
               <span
                 key={s.text}
-                className={`rounded-full border px-2.5 py-1 text-[11px] font-medium transition-colors duration-300 ${
+                className={`rounded-full border-2 px-2.5 py-1 text-[11px] font-bold transition-colors duration-300 ${
                   s.text === scenario.severity
                     ? TONE_STYLES[s.tone].pill
-                    : "border-border bg-muted/30 text-muted-foreground"
+                    : "border-line bg-card text-muted-foreground"
                 }`}
               >
                 {s.text}
@@ -276,45 +234,45 @@ export function AnimatedDefectPanel() {
             ))}
           </div>
           <div className="flex flex-wrap items-center gap-1.5">
-            <span className="w-14 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <span className="w-14 font-mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
               Type
             </span>
             {TYPES.map((t) => (
               <span
                 key={t}
-                className={`rounded-full border px-2.5 py-1 text-[11px] font-medium transition-colors duration-300 ${
+                className={`rounded-full border-2 px-2.5 py-1 text-[11px] font-bold transition-colors duration-300 ${
                   t === scenario.type
                     ? tone.pill
-                    : "border-border bg-muted/30 text-muted-foreground"
+                    : "border-line bg-card text-muted-foreground"
                 }`}
               >
                 {t}
               </span>
             ))}
-            <span className="rounded-full border border-border bg-muted/30 px-2 py-1 text-[11px] text-muted-foreground">
+            <span className="rounded-full border-2 border-line bg-card px-2 py-1 text-[11px] text-muted-foreground">
               …
             </span>
           </div>
         </div>
 
-        <div className="mt-3 flex items-center justify-between border-t border-border/60 pt-2.5">
+        <div className="mt-3 flex items-center justify-between border-t-2 border-line pt-2.5">
           <span
             key={`preview-${label}`}
-            className={`animate-pop font-mono text-[11px] font-semibold ${tone.text}`}
+            className={`animate-pop font-mono text-[11px] font-bold ${tone.text}`}
           >
             {label}
           </span>
-          <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+          <span className="inline-flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
             <CheckCircle2 className="h-3 w-3 text-primary" /> ready to submit
           </span>
         </div>
       </div>
 
       <div className="flex justify-end gap-2">
-        <span className="rounded-lg border border-border px-3 py-1.5 text-xs text-muted-foreground">
+        <span className="border-2 border-line px-3 py-1.5 text-xs font-medium text-muted-foreground">
           Cancel
         </span>
-        <span className="rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground">
+        <span className="border-2 border-ink bg-primary px-3 py-1.5 text-xs font-bold text-white">
           Add review comment
         </span>
       </div>
@@ -329,21 +287,21 @@ export function AnimatedDefectPanel() {
 export function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className={`transition-colors duration-300 ${open ? "bg-card/40" : ""}`}>
+    <div className={`transition-colors duration-200 ${open ? "bg-muted/60" : ""}`}>
       <button
         type="button"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full cursor-pointer items-center justify-between gap-4 p-6 text-left"
+        className="flex w-full cursor-pointer items-center justify-between gap-4 p-5 text-left transition-colors duration-200 hover:bg-muted/60"
       >
-        <span className="text-sm font-medium text-foreground md:text-base">
-          {question}
-        </span>
-        <ChevronDown
-          className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-300 ${
-            open ? "rotate-180" : ""
+        <span className="text-sm font-semibold md:text-base">{question}</span>
+        <span
+          className={`flex h-7 w-7 shrink-0 items-center justify-center border-2 border-ink bg-card transition-transform duration-300 ${
+            open ? "rotate-180 bg-primary text-white" : ""
           }`}
-        />
+        >
+          <ChevronDown className="h-4 w-4" />
+        </span>
       </button>
       <div
         className={`grid transition-[grid-template-rows] duration-300 ease-out ${
@@ -351,7 +309,7 @@ export function FAQItem({ question, answer }: { question: string; answer: string
         }`}
       >
         <div className="overflow-hidden">
-          <p className="px-6 pb-6 text-sm leading-relaxed text-muted-foreground">
+          <p className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground">
             {answer}
           </p>
         </div>
@@ -379,13 +337,13 @@ export function MobileNav({
         aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-border bg-card/60 text-foreground transition-colors duration-200 hover:bg-card"
+        className="flex h-9 w-9 cursor-pointer items-center justify-center border-2 border-ink bg-card transition-colors duration-200 hover:bg-muted"
       >
         {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
       </button>
       <div
-        className={`absolute inset-x-0 top-full grid border-border/60 bg-background/95 backdrop-blur-xl transition-[grid-template-rows] duration-300 ease-out ${
-          open ? "grid-rows-[1fr] border-b" : "grid-rows-[0fr]"
+        className={`absolute inset-x-0 top-full grid border-ink bg-background transition-[grid-template-rows] duration-300 ease-out ${
+          open ? "grid-rows-[1fr] border-b-2" : "grid-rows-[0fr]"
         }`}
       >
         <div className="overflow-hidden">
@@ -395,7 +353,7 @@ export function MobileNav({
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition-colors duration-200 hover:bg-card hover:text-foreground"
+                className="px-3 py-2.5 font-mono text-sm font-medium uppercase tracking-wide text-foreground transition-colors duration-200 hover:bg-muted"
               >
                 {l.label}
               </a>
@@ -403,7 +361,7 @@ export function MobileNav({
             <a
               href={cta.href}
               onClick={() => setOpen(false)}
-              className="mt-2 rounded-lg bg-foreground px-3 py-2.5 text-center text-sm font-semibold text-background transition-opacity duration-200 hover:opacity-90"
+              className="btn-hard mt-2 bg-primary px-3 py-2.5 text-center text-sm font-bold text-white"
             >
               {cta.label}
             </a>
