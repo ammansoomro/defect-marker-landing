@@ -57,7 +57,7 @@ export function Reveal({
 }
 
 /* ------------------------------------------------------------------ */
-/* ScrollProgress — solid green bar across the very top                */
+/* ScrollProgress — gradient bar across the very top                   */
 /* ------------------------------------------------------------------ */
 
 export function ScrollProgress() {
@@ -82,8 +82,11 @@ export function ScrollProgress() {
   }, []);
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-1">
-      <div ref={barRef} className="h-full origin-left scale-x-0 bg-primary" />
+    <div aria-hidden className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5">
+      <div
+        ref={barRef}
+        className="h-full origin-left scale-x-0 bg-gradient-to-r from-primary via-accent to-cosmetic"
+      />
     </div>
   );
 }
@@ -126,21 +129,21 @@ const TONE_STYLES: Record<
   { chip: string; panel: string; pill: string; text: string }
 > = {
   major: {
-    chip: "bg-major text-white",
-    panel: "border-major bg-major/5",
-    pill: "border-ink bg-major text-white",
+    chip: "bg-major/20 text-major",
+    panel: "border-major/30 bg-major/10",
+    pill: "border-major/50 bg-major/20 text-major",
     text: "text-major",
   },
   minor: {
-    chip: "bg-minor text-white",
-    panel: "border-minor bg-minor/5",
-    pill: "border-ink bg-minor text-white",
+    chip: "bg-minor/20 text-minor",
+    panel: "border-minor/30 bg-minor/10",
+    pill: "border-minor/50 bg-minor/20 text-minor",
     text: "text-minor",
   },
   cosmetic: {
-    chip: "bg-cosmetic text-white",
-    panel: "border-cosmetic bg-cosmetic/5",
-    pill: "border-ink bg-cosmetic text-white",
+    chip: "bg-cosmetic/20 text-cosmetic",
+    panel: "border-cosmetic/30 bg-cosmetic/10",
+    pill: "border-cosmetic/50 bg-cosmetic/20 text-cosmetic",
     text: "text-cosmetic",
   },
 };
@@ -191,10 +194,10 @@ export function AnimatedDefectPanel() {
   return (
     <div ref={containerRef} className="space-y-3 p-4">
       {/* Comment with the inserted label */}
-      <div className="border-2 border-line bg-background px-3 py-2.5 font-mono text-xs leading-relaxed">
+      <div className="rounded-lg border border-white/10 bg-black/30 px-3 py-2.5 font-mono text-xs leading-relaxed">
         <span
           key={`chip-${label}`}
-          className={`animate-pop inline-block px-1.5 py-0.5 font-bold ${tone.chip}`}
+          className={`animate-pop inline-block rounded px-1.5 py-0.5 font-bold ${tone.chip}`}
         >
           {label}
         </span>{" "}
@@ -207,10 +210,12 @@ export function AnimatedDefectPanel() {
       </div>
 
       {/* The panel itself */}
-      <div className={`border-2 p-3 transition-colors duration-500 ${tone.panel}`}>
-        <span className="flex items-center gap-2 text-xs font-bold">
-          <span className="flex h-4 w-4 items-center justify-center border-2 border-ink bg-primary">
-            <Check className="h-3 w-3 text-white" />
+      <div
+        className={`rounded-xl border p-3 backdrop-blur transition-colors duration-500 ${tone.panel}`}
+      >
+        <span className="flex items-center gap-2 text-xs font-semibold">
+          <span className="flex h-4 w-4 items-center justify-center rounded border border-primary/50 bg-primary/20">
+            <Check className="h-3 w-3 text-primary" />
           </span>
           Mark as Defect
         </span>
@@ -223,10 +228,10 @@ export function AnimatedDefectPanel() {
             {SEVERITIES.map((s) => (
               <span
                 key={s.text}
-                className={`rounded-full border-2 px-2.5 py-1 text-[11px] font-bold transition-colors duration-300 ${
+                className={`rounded-full border px-2.5 py-1 text-[11px] font-semibold transition-colors duration-300 ${
                   s.text === scenario.severity
                     ? TONE_STYLES[s.tone].pill
-                    : "border-line bg-card text-muted-foreground"
+                    : "border-white/10 bg-white/5 text-muted-foreground"
                 }`}
               >
                 {s.text}
@@ -240,22 +245,22 @@ export function AnimatedDefectPanel() {
             {TYPES.map((t) => (
               <span
                 key={t}
-                className={`rounded-full border-2 px-2.5 py-1 text-[11px] font-bold transition-colors duration-300 ${
+                className={`rounded-full border px-2.5 py-1 text-[11px] font-semibold transition-colors duration-300 ${
                   t === scenario.type
                     ? tone.pill
-                    : "border-line bg-card text-muted-foreground"
+                    : "border-white/10 bg-white/5 text-muted-foreground"
                 }`}
               >
                 {t}
               </span>
             ))}
-            <span className="rounded-full border-2 border-line bg-card px-2 py-1 text-[11px] text-muted-foreground">
+            <span className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[11px] text-muted-foreground">
               …
             </span>
           </div>
         </div>
 
-        <div className="mt-3 flex items-center justify-between border-t-2 border-line pt-2.5">
+        <div className="mt-3 flex items-center justify-between border-t border-white/10 pt-2.5">
           <span
             key={`preview-${label}`}
             className={`animate-pop font-mono text-[11px] font-bold ${tone.text}`}
@@ -269,10 +274,10 @@ export function AnimatedDefectPanel() {
       </div>
 
       <div className="flex justify-end gap-2">
-        <span className="border-2 border-line px-3 py-1.5 text-xs font-medium text-muted-foreground">
+        <span className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-muted-foreground">
           Cancel
         </span>
-        <span className="border-2 border-ink bg-primary px-3 py-1.5 text-xs font-bold text-white">
+        <span className="btn-glow rounded-lg px-3 py-1.5 text-xs font-bold text-white">
           Add review comment
         </span>
       </div>
@@ -287,17 +292,19 @@ export function AnimatedDefectPanel() {
 export function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className={`transition-colors duration-200 ${open ? "bg-muted/60" : ""}`}>
+    <div className={`transition-colors duration-200 ${open ? "bg-white/[0.04]" : ""}`}>
       <button
         type="button"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full cursor-pointer items-center justify-between gap-4 p-5 text-left transition-colors duration-200 hover:bg-muted/60"
+        className="flex w-full cursor-pointer items-center justify-between gap-4 p-5 text-left transition-colors duration-200 hover:bg-white/[0.04]"
       >
         <span className="text-sm font-semibold md:text-base">{question}</span>
         <span
-          className={`flex h-7 w-7 shrink-0 items-center justify-center border-2 border-ink bg-card transition-transform duration-300 ${
-            open ? "rotate-180 bg-primary text-white" : ""
+          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border transition-all duration-300 ${
+            open
+              ? "rotate-180 border-primary/40 bg-primary/20 text-primary"
+              : "border-white/10 bg-white/5 text-muted-foreground"
           }`}
         >
           <ChevronDown className="h-4 w-4" />
@@ -337,13 +344,13 @@ export function MobileNav({
         aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        className="flex h-9 w-9 cursor-pointer items-center justify-center border-2 border-ink bg-card transition-colors duration-200 hover:bg-muted"
+        className="btn-glass flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg"
       >
         {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
       </button>
       <div
-        className={`absolute inset-x-0 top-full grid border-ink bg-background transition-[grid-template-rows] duration-300 ease-out ${
-          open ? "grid-rows-[1fr] border-b-2" : "grid-rows-[0fr]"
+        className={`absolute inset-x-0 top-full grid border-white/10 bg-background/90 backdrop-blur-xl transition-[grid-template-rows] duration-300 ease-out ${
+          open ? "grid-rows-[1fr] border-b" : "grid-rows-[0fr]"
         }`}
       >
         <div className="overflow-hidden">
@@ -353,7 +360,7 @@ export function MobileNav({
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="px-3 py-2.5 font-mono text-sm font-medium uppercase tracking-wide text-foreground transition-colors duration-200 hover:bg-muted"
+                className="rounded-lg px-3 py-2.5 font-mono text-sm font-medium uppercase tracking-wide text-muted-foreground transition-colors duration-200 hover:bg-white/5 hover:text-foreground"
               >
                 {l.label}
               </a>
@@ -361,7 +368,7 @@ export function MobileNav({
             <a
               href={cta.href}
               onClick={() => setOpen(false)}
-              className="btn-hard mt-2 bg-primary px-3 py-2.5 text-center text-sm font-bold text-white"
+              className="btn-glow mt-2 rounded-lg px-3 py-2.5 text-center text-sm font-bold text-white"
             >
               {cta.label}
             </a>

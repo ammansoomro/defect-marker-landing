@@ -1,29 +1,26 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ */
-/* Design system — paper-white neo-brutalist engineering spec sheet    */
-/* Hard ink borders, offset block shadows, solid severity color.       */
+/* Design system — dark glassmorphism: frosted layers, soft borders,   */
+/* blue → violet gradient glow, aurora backdrops.                      */
 /* ------------------------------------------------------------------ */
 
 :root {
-  --background: 45 30% 97%; /* warm paper */
-  --foreground: 222 20% 10%; /* ink */
+  --background: 229 35% 5%;
+  --foreground: 220 25% 95%;
 
-  --card: 0 0% 100%;
-  --muted: 45 15% 92%;
-  --muted-foreground: 222 10% 36%;
+  --card: 228 28% 8%;
+  --muted: 228 18% 14%;
+  --muted-foreground: 225 12% 66%;
 
-  --ink: 222 20% 10%; /* hard borders + shadows */
-  --line: 222 10% 84%; /* soft hairlines */
-  --paper: 45 30% 97%;
-
-  --primary: 145 75% 32%; /* CTA green */
+  --primary: 217 91% 60%;
   --primary-foreground: 0 0% 100%;
+  --accent: 262 84% 66%;
 
-  /* Severity palette — dark enough for 4.5:1 on white */
-  --major: 0 72% 44%;
-  --minor: 30 90% 36%;
-  --cosmetic: 192 85% 30%;
+  /* Severity palette — bright enough for dark backgrounds */
+  --major: 0 84% 66%;
+  --minor: 38 95% 58%;
+  --cosmetic: 190 90% 55%;
 }
 
 @theme inline {
@@ -32,14 +29,15 @@
   --color-card: hsl(var(--card));
   --color-muted: hsl(var(--muted));
   --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-ink: hsl(var(--ink));
-  --color-line: hsl(var(--line));
-  --color-paper: hsl(var(--paper));
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-accent: hsl(var(--accent));
   --color-major: hsl(var(--major));
   --color-minor: hsl(var(--minor));
   --color-cosmetic: hsl(var(--cosmetic));
+
+  --shadow-glow: 0 0 24px hsl(var(--primary) / 0.35),
+    0 0 64px hsl(var(--accent) / 0.18);
 
   --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, "Cascadia Code",
@@ -57,12 +55,13 @@ body {
 }
 
 ::selection {
-  background: hsl(var(--primary) / 0.25);
+  background: hsl(var(--accent) / 0.35);
 }
 
 :focus-visible {
   outline: 2px solid hsl(var(--primary));
   outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* Anchor targets land below the sticky header */
@@ -71,52 +70,95 @@ body {
 }
 
 /* ------------------------------------------------------------------ */
-/* Brutalist primitives                                                */
+/* Glass primitives                                                    */
 /* ------------------------------------------------------------------ */
 
-/* Engineering grid paper behind sections */
-.bg-blueprint {
-  background-image: linear-gradient(hsl(var(--line) / 0.5) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(var(--line) / 0.5) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
-/* Hard-bordered card with offset block shadow. Override the shadow
-   color on dark sections with the [--hard:#fff] arbitrary property. */
-.card-hard {
-  --hard: hsl(var(--ink));
-  border: 2px solid var(--hard);
-  box-shadow: 6px 6px 0 0 var(--hard);
-  background: hsl(var(--card));
-}
-
-/* Interactive variant — lifts on hover, presses on click */
-.btn-hard {
-  --hard: hsl(var(--ink));
-  border: 2px solid var(--hard);
-  box-shadow: 4px 4px 0 0 var(--hard);
-  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
-}
-
-.btn-hard:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 0 var(--hard);
-}
-
-.btn-hard:active {
-  transform: translate(2px, 2px);
-  box-shadow: 0 0 0 0 var(--hard);
-}
-
-/* Highlighter swipe behind headline words */
-.hl-marker {
-  background-image: linear-gradient(
+/* Frosted card: gradient sheen, hairline border, inner top highlight */
+.glass-card {
+  background: linear-gradient(
     180deg,
-    transparent 58%,
-    hsl(var(--primary) / 0.35) 58%,
-    hsl(var(--primary) / 0.35) 96%,
-    transparent 96%
+    hsl(0 0% 100% / 0.07),
+    hsl(0 0% 100% / 0.02)
   );
+  border: 1px solid hsl(0 0% 100% / 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 12px 40px -12px rgb(0 0 0 / 0.5),
+    inset 0 1px 0 hsl(0 0% 100% / 0.08);
+}
+
+/* Primary CTA: gradient fill + ambient glow, lifts on hover */
+.btn-glow {
+  background: linear-gradient(120deg, hsl(var(--primary)), hsl(var(--accent)));
+  box-shadow: var(--shadow-glow);
+  transition: transform 0.2s ease-out, filter 0.2s ease-out;
+}
+
+.btn-glow:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+.btn-glow:active {
+  transform: translateY(0);
+}
+
+/* Secondary glass button */
+.btn-glass {
+  background: hsl(0 0% 100% / 0.05);
+  border: 1px solid hsl(0 0% 100% / 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background-color 0.2s ease-out, border-color 0.2s ease-out,
+    transform 0.2s ease-out;
+}
+
+.btn-glass:hover {
+  background: hsl(0 0% 100% / 0.1);
+  border-color: hsl(var(--primary) / 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-glass:active {
+  transform: translateY(0);
+}
+
+/* Faint engineering grid, fading out downward */
+.bg-grid-faint {
+  background-image: linear-gradient(hsl(0 0% 100% / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(0 0% 100% / 0.045) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 100%);
+}
+
+/* Aurora wash for hero / CTA backdrops */
+.bg-aurora {
+  background: radial-gradient(
+      ellipse 55% 45% at 30% 0%,
+      hsl(var(--primary) / 0.25),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 45% 40% at 75% 10%,
+      hsl(var(--accent) / 0.2),
+      transparent 70%
+    );
+}
+
+/* Blue → violet → cyan panning headline gradient */
+.text-gradient {
+  background: linear-gradient(
+    100deg,
+    hsl(var(--primary)) 0%,
+    hsl(var(--accent)) 40%,
+    hsl(var(--cosmetic)) 70%,
+    hsl(var(--primary)) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-pan 8s linear infinite;
 }
 
 /* ------------------------------------------------------------------ */
@@ -159,6 +201,22 @@ body {
   }
 }
 
+@keyframes gradient-pan {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes aurora-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(3%, -2%, 0) scale(1.05);
+  }
+}
+
 @keyframes marquee {
   to {
     transform: translateX(-50%);
@@ -177,6 +235,12 @@ body {
 
 .animate-fade-swap {
   animation: fade-swap 0.45s ease-out both;
+}
+
+/* Very slow drift on aurora layers */
+.animate-aurora {
+  animation: aurora-drift 16s ease-in-out infinite;
+  will-change: transform;
 }
 
 /* Label ticker — two identical halves, slides one half-width */
@@ -205,6 +269,16 @@ body {
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+}
+
+/* Card lift — transform only, no layout shift */
+.hover-lift {
+  transition: transform 0.25s ease-out, border-color 0.25s ease-out,
+    box-shadow 0.25s ease-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-3px);
 }
 
 /* ------------------------------------------------------------------ */
