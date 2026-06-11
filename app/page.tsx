@@ -6,28 +6,43 @@ import {
   CheckCircle2,
   ShieldCheck,
   Tag,
-  Zap,
   Github,
   ArrowRight,
   Sparkles,
   GitPullRequest,
   AlertTriangle,
   Eye,
-  ChevronDown,
   Palette,
   Accessibility,
 } from "lucide-react";
+import {
+  AnimatedDefectPanel,
+  FAQItem,
+  MobileNav,
+  Reveal,
+  ScrollProgress,
+  SpotlightCard,
+} from "./components/motion";
 
 const VERSION = "v1.0.0";
 const REPO_URL = "https://github.com/ammansoomro/github-defect-marker";
+
+const NAV_LINKS = [
+  { href: "#features", label: "Features" },
+  { href: "#how", label: "How it works" },
+  { href: "#demo", label: "Example" },
+  { href: "#labels", label: "Labels" },
+  { href: "#faq", label: "FAQ" },
+];
 
 export default function Landing() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
       {/* Background layers */}
       <div className="pointer-events-none absolute inset-0 bg-grid opacity-60" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[900px] bg-radial-glow" />
+      <div className="animate-aurora pointer-events-none absolute inset-x-0 top-0 h-[900px] bg-radial-glow" />
 
+      <ScrollProgress />
       <Nav />
       <Hero />
       <LogosBar />
@@ -51,39 +66,39 @@ function Nav() {
           <Image
             src={extensionIcon}
             alt="GitHub Defect Marker icon"
-            className="h-8 w-8 rounded-lg shadow-glow transition group-hover:scale-105"
+            className="h-8 w-8 rounded-lg shadow-glow transition-transform duration-200 group-hover:-rotate-6"
           />
           <span className="text-sm font-semibold tracking-tight">
             GitHub Defect Marker
           </span>
-          <span className="ml-1 hidden rounded-full border border-border bg-muted/40 px-2 py-0.5 text-[10px] font-medium text-muted-foreground sm:inline">
+          <span className="ml-1 hidden rounded-full border border-border bg-muted/40 px-2 py-0.5 font-mono text-[10px] font-medium text-muted-foreground sm:inline">
             {VERSION}
           </span>
         </a>
         <div className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
-          <a href="#features" className="transition hover:text-foreground">
-            Features
-          </a>
-          <a href="#how" className="transition hover:text-foreground">
-            How it works
-          </a>
-          <a href="#demo" className="transition hover:text-foreground">
-            Example
-          </a>
-          <a href="#labels" className="transition hover:text-foreground">
-            Labels
-          </a>
-          <a href="#faq" className="transition hover:text-foreground">
-            FAQ
-          </a>
+          {NAV_LINKS.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              className="nav-link transition-colors duration-200 hover:text-foreground"
+            >
+              {l.label}
+            </a>
+          ))}
         </div>
-        <a
-          href="#install"
-          className="group hidden items-center gap-1.5 rounded-lg bg-foreground px-3.5 py-2 text-xs font-semibold text-background transition hover:opacity-90 sm:inline-flex"
-        >
-          Add to Chrome
-          <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
-        </a>
+        <div className="flex items-center gap-3">
+          <a
+            href="#install"
+            className="group hidden items-center gap-1.5 rounded-lg bg-foreground px-3.5 py-2 text-xs font-semibold text-background transition-opacity duration-200 hover:opacity-90 md:inline-flex"
+          >
+            Add to Chrome
+            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+          </a>
+          <MobileNav
+            links={NAV_LINKS}
+            cta={{ href: "#install", label: "Add to Chrome" }}
+          />
+        </div>
       </nav>
     </header>
   );
@@ -93,52 +108,64 @@ function Hero() {
   return (
     <section className="relative z-10 mx-auto max-w-6xl px-6 pt-16 pb-24 md:pt-24 md:pb-32">
       <div className="mx-auto max-w-3xl text-center">
-        <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
+        <div className="animate-enter mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
           <Sparkles className="h-3 w-3 text-accent" />
           <span>{VERSION} is here — one-click pills, native GitHub theming</span>
         </div>
 
-        <h1 className="text-balance text-5xl font-semibold tracking-tight md:text-7xl">
+        <h1
+          className="animate-enter text-balance text-5xl font-semibold tracking-tight md:text-7xl"
+          style={{ animationDelay: "100ms" }}
+        >
           Standardize <span className="text-gradient">PR review labels</span> on
           GitHub.
         </h1>
 
-        <p className="mx-auto mt-6 max-w-xl text-pretty text-base text-muted-foreground md:text-lg">
+        <p
+          className="animate-enter mx-auto mt-6 max-w-xl text-pretty text-base text-muted-foreground md:text-lg"
+          style={{ animationDelay: "200ms" }}
+        >
           A lightweight Chrome extension that enforces consistent defect labels
           on every pull request comment — so reviews are searchable, severity is
           obvious, and nothing slips through.
         </p>
 
-        <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+        <div
+          className="animate-enter mt-9 flex flex-wrap items-center justify-center gap-3"
+          style={{ animationDelay: "300ms" }}
+        >
           <a
             id="install"
             href={REPO_URL}
-            className="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-primary to-accent px-5 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition hover:opacity-95"
+            className="btn-shine group inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-primary to-accent px-5 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-opacity duration-200 hover:opacity-95"
           >
             <Chrome className="h-4 w-4" />
             Install for Chrome
-            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </a>
           <a
             href="#demo"
-            className="inline-flex items-center gap-2 rounded-xl border border-border bg-card/60 px-5 py-3 text-sm font-medium text-foreground backdrop-blur transition hover:bg-card"
+            className="inline-flex items-center gap-2 rounded-xl border border-border bg-card/60 px-5 py-3 text-sm font-medium text-foreground backdrop-blur transition-colors duration-200 hover:border-primary/40 hover:bg-card"
           >
             <Eye className="h-4 w-4" />
             See it in action
           </a>
         </div>
 
-        <p className="mt-5 text-xs text-muted-foreground">
+        <p
+          className="animate-enter mt-5 text-xs text-muted-foreground"
+          style={{ animationDelay: "400ms" }}
+        >
           Free • No account required • Zero permissions • Works on github.com
         </p>
       </div>
 
-      {/* Product preview — a mock of the in-page defect panel */}
-      <div className="relative mx-auto mt-20 max-w-5xl">
+      {/* Product preview — a live mock of the in-page defect panel */}
+      <Reveal className="relative mx-auto mt-20 max-w-5xl" delay={150}>
         <div className="absolute -inset-x-10 -top-10 bottom-0 -z-10 bg-gradient-to-b from-primary/20 to-transparent blur-3xl" />
         <ProductPreview />
         <FloatingPreview />
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -146,6 +173,7 @@ function Hero() {
 /**
  * A hand-built mock of a GitHub PR review comment editor with the
  * Defect Marker panel mounted between the textarea and the footer.
+ * The right column cycles through label states as a live demo.
  */
 function ProductPreview() {
   return (
@@ -155,7 +183,7 @@ function ProductPreview() {
         <span className="h-3 w-3 rounded-full bg-major/70" />
         <span className="h-3 w-3 rounded-full bg-minor/70" />
         <span className="h-3 w-3 rounded-full bg-cosmetic/70" />
-        <div className="mx-auto flex items-center gap-2 rounded-md border border-border bg-muted/30 px-3 py-1 text-[11px] text-muted-foreground">
+        <div className="mx-auto flex items-center gap-2 rounded-md border border-border bg-muted/30 px-3 py-1 font-mono text-[11px] text-muted-foreground">
           <Github className="h-3 w-3" />
           github.com/acme/api/pull/1432
         </div>
@@ -187,107 +215,14 @@ function ProductPreview() {
           </div>
         </div>
 
-        {/* Comment editor with the defect panel */}
+        {/* Comment editor with the live animated defect panel */}
         <div className="overflow-hidden rounded-xl border border-border bg-background/70">
           <div className="border-b border-border px-4 py-2.5 text-xs font-medium text-muted-foreground">
             Write a review comment
           </div>
-          <div className="space-y-3 p-4">
-            <div className="rounded-lg border border-border bg-card/60 px-3 py-2.5 font-mono text-xs leading-relaxed">
-              <span className="rounded bg-major/15 px-1 py-0.5 font-semibold text-major">
-                #Major:Missing
-              </span>{" "}
-              <span className="text-muted-foreground">
-                The auth header is never validated — reject with 401 before
-                touching the database.
-              </span>
-            </div>
-
-            {/* The panel itself */}
-            <div className="rounded-lg border border-major/30 bg-major/5 p-3">
-              <label className="flex items-center gap-2 text-xs font-medium">
-                <span className="flex h-4 w-4 items-center justify-center rounded border border-primary/50 bg-primary/20">
-                  <CheckCircle2 className="h-3 w-3 text-primary" />
-                </span>
-                Mark as Defect
-              </label>
-              <div className="mt-3 space-y-2.5">
-                <PillRow
-                  label="Severity"
-                  pills={[
-                    { text: "Major", tone: "major", active: true },
-                    { text: "Minor", tone: "minor" },
-                    { text: "Cosmetic", tone: "cosmetic" },
-                  ]}
-                />
-                <PillRow
-                  label="Type"
-                  pills={[
-                    { text: "Missing", tone: "major", active: true },
-                    { text: "Extra" },
-                    { text: "Risk-prone" },
-                    { text: "Ambiguous" },
-                  ]}
-                />
-              </div>
-              <div className="mt-3 flex items-center justify-between border-t border-border/60 pt-2.5">
-                <span className="font-mono text-[11px] font-semibold text-major">
-                  #Major:Missing
-                </span>
-                <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
-                  <CheckCircle2 className="h-3 w-3 text-primary" /> ready to
-                  submit
-                </span>
-              </div>
-            </div>
-
-            <div className="flex justify-end gap-2">
-              <span className="rounded-lg border border-border px-3 py-1.5 text-xs text-muted-foreground">
-                Cancel
-              </span>
-              <span className="rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground">
-                Add review comment
-              </span>
-            </div>
-          </div>
+          <AnimatedDefectPanel />
         </div>
       </div>
-    </div>
-  );
-}
-
-function PillRow({
-  label,
-  pills,
-}: {
-  label: string;
-  pills: { text: string; tone?: "major" | "minor" | "cosmetic"; active?: boolean }[];
-}) {
-  const toneText: Record<string, string> = {
-    major: "text-major border-major/50 bg-major/15",
-    minor: "text-minor border-minor/50 bg-minor/15",
-    cosmetic: "text-cosmetic border-cosmetic/50 bg-cosmetic/15",
-  };
-  return (
-    <div className="flex flex-wrap items-center gap-1.5">
-      <span className="w-14 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-        {label}
-      </span>
-      {pills.map((p) => (
-        <span
-          key={p.text}
-          className={`rounded-full border px-2.5 py-1 text-[11px] font-medium ${
-            p.active && p.tone
-              ? toneText[p.tone]
-              : "border-border bg-muted/30 text-muted-foreground"
-          }`}
-        >
-          {p.text}
-        </span>
-      ))}
-      <span className="rounded-full border border-border bg-muted/30 px-2 py-1 text-[11px] text-muted-foreground">
-        …
-      </span>
     </div>
   );
 }
@@ -305,8 +240,8 @@ function FloatingPreview() {
             <span className="rounded-md border border-major/40 bg-major/15 px-2.5 py-1.5 text-xs font-semibold text-major">
               Major
             </span>
-            <span className="inline-flex items-center gap-1 rounded-md border border-border bg-muted/40 px-2.5 py-1.5 text-xs font-medium text-muted-foreground">
-              Missing <ChevronDown className="h-3 w-3" />
+            <span className="rounded-md border border-border bg-muted/40 px-2.5 py-1.5 text-xs font-medium text-muted-foreground">
+              Missing
             </span>
             <span className="ml-auto font-mono text-[11px] text-muted-foreground">
               #Major:Missing
@@ -334,38 +269,38 @@ function Chrome({ className = "" }: { className?: string }) {
 }
 
 function LogosBar() {
+  const stats = [
+    { label: "Chrome permissions", value: "Zero" },
+    { label: "GitHub UI versions", value: "Legacy + New" },
+    { label: "Setup time", value: "< 30s" },
+    { label: "Tracked severities", value: "3 tiers" },
+  ];
   return (
     <section className="relative z-10 border-y border-border/60 bg-card/30 py-8 backdrop-blur">
       <div className="mx-auto max-w-6xl px-6">
-        <p className="mb-5 text-center text-xs font-medium uppercase tracking-widest text-muted-foreground">
-          Built for engineering teams reviewing code on GitHub
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-muted-foreground">
-          <Stat label="Chrome permissions" value="Zero" />
-          <Divider />
-          <Stat label="GitHub UI versions" value="Legacy + New" />
-          <Divider />
-          <Stat label="Setup time" value="< 30s" />
-          <Divider />
-          <Stat label="Tracked severities" value="3 tiers" />
-        </div>
+        <Reveal>
+          <p className="mb-5 text-center text-xs font-medium uppercase tracking-widest text-muted-foreground">
+            Built for engineering teams reviewing code on GitHub
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-muted-foreground">
+            {stats.map((s, i) => (
+              <div key={s.label} className="flex items-center gap-10">
+                {i > 0 && <div className="hidden h-8 w-px bg-border md:block" />}
+                <div className="text-center">
+                  <div className="text-base font-semibold text-foreground">
+                    {s.value}
+                  </div>
+                  <div className="text-[11px] uppercase tracking-wider text-muted-foreground">
+                    {s.label}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );
-}
-
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="text-center">
-      <div className="text-base font-semibold text-foreground">{value}</div>
-      <div className="text-[11px] uppercase tracking-wider text-muted-foreground">
-        {label}
-      </div>
-    </div>
-  );
-}
-function Divider() {
-  return <div className="hidden h-8 w-px bg-border md:block" />;
 }
 
 function Features() {
@@ -407,25 +342,26 @@ function Features() {
       id="features"
       className="relative z-10 mx-auto max-w-6xl px-6 py-24 md:py-32"
     >
-      <SectionHeader
-        eyebrow="Features"
-        title="Everything reviewers need, nothing they don't."
-        sub="Defect Marker stays out of the way until you need it — then it makes labeling a single, deliberate action."
-      />
+      <Reveal>
+        <SectionHeader
+          eyebrow="Features"
+          title="Everything reviewers need, nothing they don't."
+          sub="Defect Marker stays out of the way until you need it — then it makes labeling a single, deliberate action."
+        />
+      </Reveal>
       <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-2 lg:grid-cols-3">
-        {items.map((it) => (
-          <div
-            key={it.title}
-            className="group bg-card/60 p-7 transition hover:bg-card"
-          >
-            <div className="mb-5 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 text-primary ring-1 ring-primary/30">
-              <it.icon className="h-5 w-5" />
-            </div>
-            <h3 className="text-base font-semibold">{it.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              {it.body}
-            </p>
-          </div>
+        {items.map((it, i) => (
+          <Reveal key={it.title} delay={(i % 3) * 100}>
+            <SpotlightCard className="group h-full bg-card/60 p-7 transition-colors duration-300 hover:bg-card">
+              <div className="mb-5 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 text-primary ring-1 ring-primary/30 transition-transform duration-300 group-hover:-translate-y-0.5">
+                <it.icon className="h-5 w-5" />
+              </div>
+              <h3 className="text-base font-semibold">{it.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {it.body}
+              </p>
+            </SpotlightCard>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -443,7 +379,7 @@ function SectionHeader({
 }) {
   return (
     <div className="mx-auto max-w-2xl text-center">
-      <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent">
+      <div className="mb-3 font-mono text-xs font-semibold uppercase tracking-widest text-accent">
         {eyebrow}
       </div>
       <h2 className="text-balance text-3xl font-semibold tracking-tight md:text-5xl">
@@ -483,22 +419,34 @@ function HowItWorks() {
       className="relative z-10 border-t border-border/60 bg-card/20 py-24 md:py-32"
     >
       <div className="mx-auto max-w-6xl px-6">
-        <SectionHeader
-          eyebrow="How it works"
-          title="From open PR to labeled defect in seconds."
-          sub="Four steps. No configuration. Compatible with every GitHub UI variation we've seen."
-        />
-        <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {steps.map((s) => (
-            <div key={s.n} className="glass relative rounded-xl p-6">
-              <div className="font-mono text-xs text-accent">{s.n}</div>
-              <h3 className="mt-3 text-base font-semibold">{s.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {s.body}
-              </p>
-            </div>
-          ))}
-        </div>
+        <Reveal>
+          <SectionHeader
+            eyebrow="How it works"
+            title="From open PR to labeled defect in seconds."
+            sub="Four steps. No configuration. Compatible with every GitHub UI variation we've seen."
+          />
+        </Reveal>
+        <Reveal className="relative mt-14">
+          {/* Connector line draws across once the section reveals */}
+          <div className="draw-line pointer-events-none absolute left-[12.5%] right-[12.5%] top-9 hidden h-px bg-gradient-to-r from-primary/50 via-accent/50 to-cosmetic/50 lg:block" />
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {steps.map((s, i) => (
+              <div
+                key={s.n}
+                className="glass hover-lift relative rounded-xl p-6 hover:border-primary/30"
+                style={{ transitionDelay: `${i * 80}ms` }}
+              >
+                <div className="relative inline-flex h-7 items-center rounded-full border border-accent/30 bg-accent/10 px-2.5 font-mono text-xs text-accent">
+                  {s.n}
+                </div>
+                <h3 className="mt-3 text-base font-semibold">{s.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {s.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -510,11 +458,13 @@ function ExampleShowcase() {
       id="demo"
       className="relative z-10 mx-auto max-w-6xl px-6 py-24 md:py-32"
     >
-      <SectionHeader
-        eyebrow="Example"
-        title="The real thing, inside a real PR."
-        sub="Actual screenshots from a GitHub pull request — the panel waits quietly under the comment box, then expands into one-click pills."
-      />
+      <Reveal>
+        <SectionHeader
+          eyebrow="Example"
+          title="The real thing, inside a real PR."
+          sub="Actual screenshots from a GitHub pull request — the panel waits quietly under the comment box, then expands into one-click pills."
+        />
+      </Reveal>
       <div className="relative mt-14 grid gap-6 lg:grid-cols-2">
         {/* connecting arrow between the two shots */}
         <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 lg:block">
@@ -523,21 +473,25 @@ function ExampleShowcase() {
           </div>
         </div>
 
-        <ExampleCard
-          step="Before"
-          title="A quiet checkbox under every comment box"
-          body="Open any inline comment on a PR and 'Mark as Defect' is already there — no popups, no setup. Leave it unticked and GitHub behaves exactly as normal."
-          image={panelCollapsed}
-          alt="GitHub PR comment box with the collapsed 'Mark as Defect' checkbox added below the editor"
-        />
-        <ExampleCard
-          step="After"
-          title="Tick it, click two pills, done"
-          body="Severity and Defect Type expand as color-coded pills. Picking Minor + Risk-prone prepends #Minor:Risk-prone to the comment and shows it in the live preview chip."
-          image={panelExpanded}
-          alt="Expanded Defect Marker panel showing severity and defect type pills with the #Minor:Risk-prone label inserted"
-          highlight
-        />
+        <Reveal>
+          <ExampleCard
+            step="Before"
+            title="A quiet checkbox under every comment box"
+            body="Open any inline comment on a PR and 'Mark as Defect' is already there — no popups, no setup. Leave it unticked and GitHub behaves exactly as normal."
+            image={panelCollapsed}
+            alt="GitHub PR comment box with the collapsed 'Mark as Defect' checkbox added below the editor"
+          />
+        </Reveal>
+        <Reveal delay={150}>
+          <ExampleCard
+            step="After"
+            title="Tick it, click two pills, done"
+            body="Severity and Defect Type expand as color-coded pills. Picking Minor + Risk-prone prepends #Minor:Risk-prone to the comment and shows it in the live preview chip."
+            image={panelExpanded}
+            alt="Expanded Defect Marker panel showing severity and defect type pills with the #Minor:Risk-prone label inserted"
+            highlight
+          />
+        </Reveal>
       </div>
     </section>
   );
@@ -560,11 +514,11 @@ function ExampleCard({
 }) {
   return (
     <figure
-      className={`glass flex flex-col overflow-hidden rounded-2xl ${
+      className={`glass hover-lift flex h-full flex-col overflow-hidden rounded-2xl ${
         highlight ? "ring-1 ring-accent/40" : ""
       }`}
     >
-      <div className="border-b border-border/60 bg-background/40 p-2.5">
+      <div className="img-zoom border-b border-border/60 bg-background/40 p-2.5">
         <Image
           src={image}
           alt={alt}
@@ -618,48 +572,54 @@ function LabelShowcase() {
       id="labels"
       className="relative z-10 mx-auto max-w-6xl px-6 py-24 md:py-32"
     >
-      <SectionHeader
-        eyebrow="Labels"
-        title="Three severities. Seven types. One source of truth."
-        sub="Every defect comment gets a structured #Severity:Type tag — searchable, sortable, and instantly recognizable."
-      />
+      <Reveal>
+        <SectionHeader
+          eyebrow="Labels"
+          title="Three severities. Seven types. One source of truth."
+          sub="Every defect comment gets a structured #Severity:Type tag — searchable, sortable, and instantly recognizable."
+        />
+      </Reveal>
       <div className="mt-14 grid gap-5 md:grid-cols-3">
-        {groups.map((g) => (
-          <LabelCard key={g.severity} {...g} />
+        {groups.map((g, i) => (
+          <Reveal key={g.severity} delay={i * 100} className="h-full">
+            <LabelCard {...g} />
+          </Reveal>
         ))}
       </div>
 
-      <div className="mt-12 overflow-hidden rounded-2xl border border-border bg-background/60">
-        <div className="flex items-center justify-between border-b border-border bg-card/60 px-5 py-3">
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Github className="h-3.5 w-3.5" />
-            <span className="font-mono">comment.body</span>
+      <Reveal delay={150}>
+        <div className="mt-12 overflow-hidden rounded-2xl border border-border bg-background/60">
+          <div className="flex items-center justify-between border-b border-border bg-card/60 px-5 py-3">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Github className="h-3.5 w-3.5" />
+              <span className="font-mono">comment.body</span>
+            </div>
+            <span className="font-mono text-[10px] text-muted-foreground">
+              preview
+            </span>
           </div>
-          <span className="font-mono text-[10px] text-muted-foreground">
-            preview
-          </span>
-        </div>
-        <pre className="overflow-x-auto p-6 font-mono text-sm leading-relaxed text-foreground">
-          {"> "}
-          <span className="rounded bg-major/15 px-1.5 py-0.5 text-major">
-            #Major:Missing
-          </span>
-          {` This endpoint never validates the auth header — request
+          <pre className="overflow-x-auto p-6 font-mono text-sm leading-relaxed text-foreground">
+            {"> "}
+            <span className="rounded bg-major/15 px-1.5 py-0.5 text-major">
+              #Major:Missing
+            </span>
+            {` This endpoint never validates the auth header — request
 should reject with 401 before touching the database.
 
 > `}
-          <span className="rounded bg-minor/15 px-1.5 py-0.5 text-minor">
-            #Minor:Inconsistent
-          </span>
-          {` We're using camelCase elsewhere in this file.
+            <span className="rounded bg-minor/15 px-1.5 py-0.5 text-minor">
+              #Minor:Inconsistent
+            </span>
+            {` We're using camelCase elsewhere in this file.
 
 > `}
-          <span className="rounded bg-cosmetic/15 px-1.5 py-0.5 text-cosmetic">
-            #Cosmetic:Improvement
-          </span>
-          {` Could be a one-liner with Array.from.`}
-        </pre>
-      </div>
+            <span className="rounded bg-cosmetic/15 px-1.5 py-0.5 text-cosmetic">
+              #Cosmetic:Improvement
+            </span>
+            {` Could be a one-liner with Array.from.`}
+          </pre>
+        </div>
+      </Reveal>
     </section>
   );
 }
@@ -680,8 +640,15 @@ function LabelCard({
     minor: "border-minor/40 text-minor bg-minor/10",
     cosmetic: "border-cosmetic/40 text-cosmetic bg-cosmetic/10",
   };
+  const hoverRing: Record<typeof tone, string> = {
+    major: "hover:border-major/40",
+    minor: "hover:border-minor/40",
+    cosmetic: "hover:border-cosmetic/40",
+  };
   return (
-    <div className="glass flex flex-col rounded-2xl p-6">
+    <div
+      className={`glass hover-lift flex h-full flex-col rounded-2xl p-6 ${hoverRing[tone]}`}
+    >
       <div className="flex items-center justify-between">
         <span
           className={`rounded-md border px-2.5 py-1 font-mono text-xs font-semibold ${toneClasses[tone]}`}
@@ -736,24 +703,20 @@ function FAQ() {
       className="relative z-10 border-t border-border/60 bg-card/20 py-24 md:py-32"
     >
       <div className="mx-auto max-w-3xl px-6">
-        <SectionHeader
-          eyebrow="FAQ"
-          title="Answers, before you ask."
-          sub="Still curious? Open an issue on the repo and we'll get back to you."
-        />
-        <div className="mt-12 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-background/40">
-          {items.map((it) => (
-            <details key={it.q} className="group p-6 open:bg-card/40">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                <span className="text-sm font-medium md:text-base">{it.q}</span>
-                <ChevronDown className="h-4 w-4 text-muted-foreground transition group-open:rotate-180" />
-              </summary>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {it.a}
-              </p>
-            </details>
-          ))}
-        </div>
+        <Reveal>
+          <SectionHeader
+            eyebrow="FAQ"
+            title="Answers, before you ask."
+            sub="Still curious? Open an issue on the repo and we'll get back to you."
+          />
+        </Reveal>
+        <Reveal delay={100}>
+          <div className="mt-12 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-background/40">
+            {items.map((it) => (
+              <FAQItem key={it.q} question={it.q} answer={it.a} />
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -762,35 +725,37 @@ function FAQ() {
 function CTA() {
   return (
     <section className="relative z-10 mx-auto max-w-6xl px-6 py-24 md:py-32">
-      <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-card to-background p-10 text-center shadow-elevated md:p-16">
-        <div className="pointer-events-none absolute inset-0 bg-radial-glow opacity-80" />
-        <div className="relative">
-          <h2 className="text-balance text-4xl font-semibold tracking-tight md:text-5xl">
-            Make every PR comment <span className="text-gradient">count</span>.
-          </h2>
-          <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
-            Install GitHub Defect Marker and bring structure to your code
-            reviews today.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href={REPO_URL}
-              className="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-primary to-accent px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition hover:opacity-95"
-            >
-              <Chrome className="h-4 w-4" />
-              Add to Chrome — Free
-              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-            </a>
-            <a
-              href={REPO_URL}
-              className="inline-flex items-center gap-2 rounded-xl border border-border bg-card/60 px-6 py-3 text-sm font-medium text-foreground transition hover:bg-card"
-            >
-              <Github className="h-4 w-4" />
-              View on GitHub
-            </a>
+      <Reveal>
+        <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-card to-background p-10 text-center shadow-elevated md:p-16">
+          <div className="animate-aurora pointer-events-none absolute inset-0 bg-radial-glow opacity-80" />
+          <div className="relative">
+            <h2 className="text-balance text-4xl font-semibold tracking-tight md:text-5xl">
+              Make every PR comment <span className="text-gradient">count</span>.
+            </h2>
+            <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
+              Install GitHub Defect Marker and bring structure to your code
+              reviews today.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <a
+                href={REPO_URL}
+                className="btn-shine group inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-primary to-accent px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-opacity duration-200 hover:opacity-95"
+              >
+                <Chrome className="h-4 w-4" />
+                Add to Chrome — Free
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+              </a>
+              <a
+                href={REPO_URL}
+                className="inline-flex items-center gap-2 rounded-xl border border-border bg-card/60 px-6 py-3 text-sm font-medium text-foreground transition-colors duration-200 hover:border-primary/40 hover:bg-card"
+              >
+                <Github className="h-4 w-4" />
+                View on GitHub
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -800,21 +765,28 @@ function Footer() {
     <footer className="relative z-10 border-t border-border/60 py-10">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 text-xs text-muted-foreground md:flex-row">
         <div className="flex items-center gap-2">
-          <Image
-            src={extensionIcon}
-            alt=""
-            className="h-6 w-6 rounded-md"
-          />
-          <span>GitHub Defect Marker • {VERSION}</span>
+          <Image src={extensionIcon} alt="" className="h-6 w-6 rounded-md" />
+          <span>
+            GitHub Defect Marker • <span className="font-mono">{VERSION}</span>
+          </span>
         </div>
         <div className="flex items-center gap-6">
-          <a href="#features" className="hover:text-foreground">
+          <a
+            href="#features"
+            className="transition-colors duration-200 hover:text-foreground"
+          >
             Features
           </a>
-          <a href="#faq" className="hover:text-foreground">
+          <a
+            href="#faq"
+            className="transition-colors duration-200 hover:text-foreground"
+          >
             FAQ
           </a>
-          <a href={REPO_URL} className="hover:text-foreground">
+          <a
+            href={REPO_URL}
+            className="transition-colors duration-200 hover:text-foreground"
+          >
             GitHub
           </a>
         </div>
