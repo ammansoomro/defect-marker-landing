@@ -1,6 +1,7 @@
 import Image from "next/image";
 import panelCollapsed from "@/assets/image01.png";
 import panelExpanded from "@/assets/image02.png";
+import extensionIcon from "@/assets/icon.png";
 import {
   CheckCircle2,
   ShieldCheck,
@@ -46,9 +47,11 @@ function Nav() {
     <header className="relative z-20">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
         <a href="#" className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent shadow-glow">
-            <Tag className="h-4 w-4 text-primary-foreground" strokeWidth={2.5} />
-          </div>
+          <Image
+            src={extensionIcon}
+            alt="GitHub Defect Marker icon"
+            className="h-8 w-8 rounded-lg shadow-glow"
+          />
           <span className="text-sm font-semibold tracking-tight">
             GitHub Defect Marker
           </span>
@@ -796,9 +799,11 @@ function Footer() {
     <footer className="relative z-10 border-t border-border/60 py-10">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 text-xs text-muted-foreground md:flex-row">
         <div className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-gradient-to-br from-primary to-accent">
-            <Tag className="h-3 w-3 text-primary-foreground" strokeWidth={2.5} />
-          </div>
+          <Image
+            src={extensionIcon}
+            alt=""
+            className="h-6 w-6 rounded-md"
+          />
           <span>GitHub Defect Marker • {VERSION}</span>
         </div>
         <div className="flex items-center gap-6">
