@@ -1,7 +1,7 @@
 # GitHub Defect Marker — Landing Page
 
 Marketing landing page for the [GitHub Defect Marker](../github-defect-marker/)
-Chrome extension (v2.4.0). Built with Next.js 15 (App Router), React 19,
+Chrome extension. Built with Next.js 15 (App Router), React 19,
 Tailwind CSS v4, and lucide-react.
 
 ## Development

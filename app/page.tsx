@@ -18,7 +18,7 @@ import {
   Accessibility,
 } from "lucide-react";
 
-const VERSION = "v2.4.0";
+const VERSION = "v1.0.0";
 const REPO_URL = "https://github.com/ammansoomro/github-defect-marker";
 
 export default function Landing() {
@@ -44,18 +44,19 @@ export default function Landing() {
 
 function Nav() {
   return (
-    <header className="relative z-20">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-        <a href="#" className="flex items-center gap-2.5">
+    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-xl supports-[backdrop-filter]:bg-background/50">
+      <div className="pointer-events-none absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5">
+        <a href="#" className="group flex items-center gap-2.5">
           <Image
             src={extensionIcon}
             alt="GitHub Defect Marker icon"
-            className="h-8 w-8 rounded-lg shadow-glow"
+            className="h-8 w-8 rounded-lg shadow-glow transition group-hover:scale-105"
           />
           <span className="text-sm font-semibold tracking-tight">
             GitHub Defect Marker
           </span>
-          <span className="ml-1 rounded-full border border-border bg-muted/40 px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
+          <span className="ml-1 hidden rounded-full border border-border bg-muted/40 px-2 py-0.5 text-[10px] font-medium text-muted-foreground sm:inline">
             {VERSION}
           </span>
         </a>
@@ -78,7 +79,7 @@ function Nav() {
         </div>
         <a
           href="#install"
-          className="group inline-flex items-center gap-1.5 rounded-lg bg-foreground px-3.5 py-2 text-xs font-semibold text-background transition hover:opacity-90"
+          className="group hidden items-center gap-1.5 rounded-lg bg-foreground px-3.5 py-2 text-xs font-semibold text-background transition hover:opacity-90 sm:inline-flex"
         >
           Add to Chrome
           <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
@@ -94,7 +95,7 @@ function Hero() {
       <div className="mx-auto max-w-3xl text-center">
         <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
           <Sparkles className="h-3 w-3 text-accent" />
-          <span>New in {VERSION} — one-click pills, native GitHub theming</span>
+          <span>{VERSION} is here — one-click pills, native GitHub theming</span>
         </div>
 
         <h1 className="text-balance text-5xl font-semibold tracking-tight md:text-7xl">
