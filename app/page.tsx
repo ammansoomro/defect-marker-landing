@@ -24,6 +24,8 @@ import {
 
 const VERSION = "v1.0.0";
 const REPO_URL = "https://github.com/ammansoomro/github-defect-marker";
+const STORE_URL =
+  "https://chromewebstore.google.com/detail/github-defect-marker/jjdoipaabbleocomabmeleioohlikdlf";
 
 const NAV_LINKS = [
   { href: "#why", label: "Why" },
@@ -95,13 +97,13 @@ function Nav() {
         </div>
         <div className="flex items-center gap-3">
           <a
-            href={REPO_URL}
+            href={STORE_URL}
             className="btn-glow hidden items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-bold text-white md:inline-flex"
           >
             Add to Chrome
             <ArrowRight className="h-3.5 w-3.5" />
           </a>
-          <MobileNav links={NAV_LINKS} cta={{ href: REPO_URL, label: "Add to Chrome" }} />
+          <MobileNav links={NAV_LINKS} cta={{ href: STORE_URL, label: "Add to Chrome" }} />
         </div>
       </nav>
     </header>
@@ -147,7 +149,7 @@ function Hero() {
             style={{ animationDelay: "300ms" }}
           >
             <a
-              href={REPO_URL}
+              href={STORE_URL}
               className="btn-glow inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold text-white"
             >
               <ChromeIcon className="h-4 w-4" />
@@ -780,7 +782,7 @@ function CTA() {
               </p>
               <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
                 <a
-                  href={REPO_URL}
+                  href={STORE_URL}
                   className="btn-glow inline-flex items-center gap-2 rounded-xl px-7 py-4 text-sm font-bold text-white"
                 >
                   <ChromeIcon className="h-4 w-4" />

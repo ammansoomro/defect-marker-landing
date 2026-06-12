@@ -35,5 +35,6 @@ Design tokens (colors, glow shadows) live in `app/globals.css` under
 `--cosmetic`. Custom utilities: `bg-grid`, `bg-radial-glow`, `glass`,
 `text-gradient`.
 
-Update `REPO_URL` and `VERSION` at the top of `app/page.tsx` when the
-extension repo URL or version changes.
+Update `REPO_URL`, `STORE_URL`, and `VERSION` at the top of `app/page.tsx`
+when the extension repo URL, [Chrome Web Store listing](https://chromewebstore.google.com/detail/github-defect-marker/jjdoipaabbleocomabmeleioohlikdlf),
+or version changes.
